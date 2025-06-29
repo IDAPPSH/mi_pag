@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style_filtro.css"> <!-- Verifica la ruta del archivo CSS -->
+    <script type="module" src="../jsp/scrip_filtro_admin.js" defer></script>
+    <title>Administración de Formularios</title>
+
+    <style>
+        /* Details Section */
+        .details-section {
+            display: none;
+        }
+
+        .filter-section {
+            display: none;
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-image: linear-gradient(100deg, #000000, #00000061), url(client_ico_256.ico);
+    color: rgba(46, 193, 241, 0.825);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 80px;
+    background-color: #283848;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 15px 0;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #0778e9;
+    border-radius: 8px;
+    color: #ecf0f1;
+}
+
+.sidebar a i {
+    font-size: 24px;
+}
+
+.sidebar span {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.btn-sidebar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    background-color: #007bff00;
+    color: white;
+    font-size: 20px;
+}
+
+.menu-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menu-icon {
+    font-size: 24px;
+}
+
+/* Content and Layout */
+.content {
+    margin-left: 80px; /* Adjusted to account for sidebar width */
+    padding: 20px;
+    flex: 1;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column; /* Stack content vertically on small screens */
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between; /* Distribute space between left and right sections */
+    align-items: center; /* Align items vertically in the center */
+    padding: 20px;
+    background-color: #3498db;
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(100deg, #000000, #00000020), url(client_ico_256.ico);
+    background-position: center;
+    border-bottom: 1px solid #2980b9;
+    flex-wrap: wrap; /* Allow wrapping of content on smaller screens */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between logo and text */
+}
+
+.header-left .logo {
+    width: 50px; /* Adjust logo size as needed */
+    height: auto;
+}
+
+.header-left h1.cabeza {
+    margin: 0; /* Remove default margin */
+    font-size: 1.5rem; /* Adjust font size */
+}
+
+.header-right {
+    text-align: right; /* Align text to the right */
+}
+
+.header-right h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 1.2rem; /* Adjust font size */
+}
+
+.header-right h2 {
+    margin: 5px 0; /* Adjust margin for spacing */
+    font-size: 1rem; /* Adjust font size */
+}
+
+.header-right #totalRegistros {
+    font-weight: bold; /* Emphasize the total count */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content {
+        margin-left: 80px; /* Keep margin for smaller screens */
+    }
+}
+
+@media (max-width: 991px) {
+    .sidebar {
+        width: 60px; /* Reduce sidebar width */
+    }
+
+    .content {
+        margin-left: 60px; /* Adjust margin accordingly */
+    }
+
+    .main-container {
+        flex-direction: column; /* Stack content vertically */
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .header-left {
+        margin-bottom: 10px;
+    }
+
+    .header-left .logo {
+        width: 40px; /* Adjust logo size for smaller screens */
+    }
+
+    .header h1.cabeza {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding: 15px 0;
+    }
+
+    .sidebar a i {
+        font-size: 20px;
+    }
+
+    .sidebar a span {
+        display: none; /* Hide text in sidebar for smaller screens */
+    }
+
+    .content {
+        margin-left: 60px; /* Adjust margin to fit the smaller sidebar */
+    }
+
+    header {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .header-left {
+        margin-bottom: 10px;
+    }
+
+    .header-left .logo {
+        width: 30px; /* Further reduce logo size */
+    }
+
+    .header h1.cabeza {
+        font-size: 18px;
+    }
+
+    .filter-section,
+    .table-section,
+    .details-section {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    button {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* Full width for dropdown on smaller screens */
+    }
+
+    label {
+        margin-bottom: 6px; /* Adjust margin for smaller screens */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+        margin-bottom: 8px; /* Adjusted for tighter spacing */
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* Ensure dropdown fits on small screens */
+    }
+
+    .filter-section,
+    .table-section,
+    .details-section {
+        padding: 8px; /* Reduced padding for very small screens */
+    }
+
+    .action-buttons button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Filter Section */
+.filter-section {
+    color: #ecd76d;
+    display: none;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.filter-section input,
+.filter-section select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 3px solid rgb(30, 5, 250);
+    border-radius: 4px;
+}
+
+/* Table Section */
+.table-section {
+    margin-bottom: 20px;
+    overflow-x: auto; /* Enable horizontal scroll on smaller screens */
+}
+
+#formTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#formTable th,
+#formTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgb(220, 15, 15);
+}
+
+#formTable th {
+    background-color: #000102;
+    color: #fff;
+}
+
+#formTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Details Section */
+.details-section {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+.details-section h2 {
+    margin-top: 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+.action-buttons button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.action-buttons button:hover {
+    background-color: #2980b9;
+}
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Botón de menú hamburguesa -->
+    <button class="menu-btn" id="menuBtn">
+        <span class="menu-icon">&#9776;</span> <!-- Icono de menú hamburguesa -->
+    </button>
+
+    <div class="content">
+        <button id="btnRegresar" onclick="window.history.back()">Regresar</button>
+
+        <header class="header">
+
+            <div class="header-left">
+
+                <img src="../images/client_ico_256.ico" alt="Logotipo" class="logo">
+                <h1 class="cabeza">Administración de Formularios</h1>
+            </div>
+
+            <div class="header-right">
+                <p id="datetime"></p>
+                <h1>Registros de Formularios</h1>
+                <div>
+                    <h2>Total de Registros: <span id="totalRegistros">0</span></h2>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+
+        <aside class="sidebar">
+           
+            
+            <button class="btn-sidebar"><i class="fa-solid fa-file-alt"></i><span></span></button><br>
+            
+            <button class="btn-sidebar" onclick="window.location.href='../index.html'"><i
+                    class="fa-solid fa-house"></i><span>Inicio</span>
+            </button>
+            <button class="btn-sidebar"><i class="fa-solid fa-file-alt"></i><span>Docu</span></button>
+            <button class="btn-sidebar"><i class="fa-solid fa-users"></i><span>Clie</span></button>
+            <button class="btn-sidebar" id="configButton">
+                <i class="fa-solid fa-cog"></i><span>Conf</span>
+            </button>
+            <button class="btn-filter" id="filterToggle">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </aside>
+
+        <main>
+            <div id="filterSection" class="filter-section">
+                <h2>Buscar Registros</h2>
+                <label for="searchTipo">Tipo de Solicitud:</label>
+                <select id="searchTipo">
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="">Seleccionar Tipo</option>
+                </select>
+                <label for="searchNombre">Nombre:</label>
+                <select id="searchNombre">
+                    <option value="">Seleccionar Nombre</option>
+                </select>
+                <label for="searchTelefono">Teléfono:</label>
+                <select id="searchTelefono">
+                    <option value="">Seleccionar Teléfono</option>
+                </select>
+            </div>
+
+            <div id="tableSection" class="table-section">
+                <table id="formTable">
+                    <thead>
+                        <tr>
+                            <th>Tipo Solicitud</th>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Datos de la tabla -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="detailsContainer" class="details-section">
+                <h2>Detalles del Registro</h2>
+                <div class="action-buttons">
+                    <button id="prevButton">Anterior</button>
+                    <button id="nextButton">Siguiente</button><hr>
+                   
+                </div>
+                <table id="detailsTable">
+                    <tbody>
+                        <!-- Detalles del registro -->
+                    </tbody>
+                </table>
+                <div class="action-buttons">
+                    <button id="backButton" class="back-button">Regresar</button>
+                    <hr>
+                    
+                    <button id="deleteButton">Eliminar</button>
+                    <button id="downloadButton">Descargar</button>
+                </div>
+            </div>
+    </div>
+    </main>
+
+
+    <footer class="footer">
+        <section class="social-media">
+            <h2>Síguenos en nuestras redes sociales</h2>
+            <div class="icons">
+                <img src="../images/client_ico_256.ico" alt="Logo" class="logo-img">
+                <a href="https://www.facebook.com/profile.php?id=61561523894253&mibextid=ZbWKwL" target="_blank">
+                    <i class="fab fa-facebook fa-2x"></i>
+                </a>
+                <a href="https://wa.me/7772095614" target="_blank" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp fa-2x"></i>
+                </a>
+                <a href="https://www.messenger.com/t/USERNAME" target="_blank" aria-label="Messenger">
+                    <i class="fab fa-facebook-messenger fa-2x"></i>
+                </a>
+            </div>
+            <div class="footer-logo">
+                <p>&copy; 2024 Mi Página Web. Todos los derechos reservados.</p>
+                <p>IDAPPSH <a href="https://idappsh.sites/" target="_blank"> 
+                    "Innovation and Development of Hybrid Systems and Applications"<br> 2023-2024
+                </a></p>
+                <img src="../images/icorar.ico" alt="Logo" class="logo-img">
+            </div>
+        </section>
+    </footer>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterSection = document.getElementById('filterSection');
+            const filterToggle = document.getElementById('filterToggle');
+
+            filterToggle.addEventListener('click', function () {
+                if (filterSection.style.display === 'none' || filterSection.style.display === '') {
+                    filterSection.style.display = 'block';
+                } else {
+                    filterSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('show');
+        });
+    });
+</script>
+
+</body>
+
+</html>
